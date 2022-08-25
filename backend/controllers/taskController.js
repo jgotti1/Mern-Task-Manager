@@ -8,7 +8,7 @@ export const getAllTasks = async (req, res) => {
   res.status(200).json(tasks);
 };
 
-// GET  A SINGLE WORKOUT
+// GET  A SINGLE TASK
 export const getTask = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -64,7 +64,7 @@ export const createTask = async (req, res) => {
   }
 };
 
-// DELETE A WORKOUT
+// DELETE A TASK
 export const deleteTask = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -77,7 +77,7 @@ export const deleteTask = async (req, res) => {
   }
   res.status(200).json(task);
 };
-// UPDATE A WORKOUT
+// UPDATE A TASK
 export const updateTask = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {

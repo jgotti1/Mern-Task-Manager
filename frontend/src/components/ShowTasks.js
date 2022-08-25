@@ -5,10 +5,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { IconButton } from "@mui/material";
 import "./ShowTasks.css";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import RuleFolderIcon from "@mui/icons-material/RuleFolder";
 import { fetchPath } from "../hooks/fetchPaths";
 import { useAuthContext } from "../hooks/useAuthContext";
-// import * as XLSX from "xlsx/xlsx.mjs";
+import * as XLSX from "xlsx/xlsx.mjs";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 export default function ShowOrdersAdmin() {
@@ -16,8 +19,8 @@ export default function ShowOrdersAdmin() {
   const [search, setSearch] = useState("");
   const { user } = useAuthContext();
 
-  //Delete single Apparel item handling
-  const deleteApparel = async (id) => {
+  //Delete single TASK item handling
+  const deleteTask = async (id) => {
     if (!user) {
       return;
     }
@@ -33,29 +36,31 @@ export default function ShowOrdersAdmin() {
       window.location.reload(false);
     }
   };
-  //Delete ALL Apparel handling use CAUTION
 
   // handle custom search
 
   const handleSearch = (e) => {
-    // e.preventDefault();
-    // console.log(search);
-    // console.log(apparelList);
-    // const resultsArray = apparelList.filter(
-    //   (apparel) =>
-    //     apparel.name.includes(search) ||
-    //     apparel.appareltype.includes(search) ||
-    //     apparel.size.includes(search) ||
-    //     apparel.payment.includes(search) ||
-    //     apparel.ispaid.includes(search)
-    // );
-    // setApparelList(resultsArray);
-    // return apparelList;
+    e.preventDefault();
+    console.log(search);
+    console.log(taskList);
+    const resultsArray = taskList.filter(
+      (task) =>
+        task.assignTo.includes(search) ||
+        task.assignedBy.includes(search) ||
+        task.caseName.includes(search) ||
+        task.task.includes(search) ||
+        task.completed.includes(search) ||
+        task.dueDate.includes(search) ||
+        task.priority.includes(search) ||
+        task.notes.includes(search)
+    );
+    setTaskList(resultsArray);
+    return taskList;
   };
 
-  // Mark as paid
+  // Mark as Complete or NOT complete
 
-  const handlePaid = async (id) => {
+  const handleComplete = async (id) => {
     const response = await fetch(fetchPath + id, {
       method: "Get",
       headers: {
@@ -66,19 +71,16 @@ export default function ShowOrdersAdmin() {
     if (!response.ok) {
       console.log(json.error);
     }
-    console.log(json.ispaid);
+    console.log(json.completed);
 
-    if (json.ispaid === "NO") {
-      console.log("NO was not paid change to paid");
-      const name = json.name;
-      const appareltype = json.appareltype;
-      const size = json.size;
-      const payment = json.ispaid;
-      const ispaid = "YES";
-      const change = { name, appareltype, size, payment, ispaid };
+    if (json.completed === "NO") {
+      console.log("NO was not Completed  change to completed");
+
+      const completed = "YES";
+      const change = { completed };
       console.log(change);
 
-      ////////////////////////// NOT Patch paid change
+      ////////////////////////// NOT Patch completed change
       const res = await fetch(fetchPath + id, {
         method: "PATCH",
         body: JSON.stringify(change),
@@ -98,15 +100,11 @@ export default function ShowOrdersAdmin() {
         window.location.reload(false);
       }
     }
-    if (json.ispaid === "YES") {
-      console.log("YES is paid change to NOT");
+    if (json.completed === "YES") {
+      console.log("YES is completed change to NOT");
 
-      const name = json.name;
-      const appareltype = json.appareltype;
-      const size = json.size;
-      const payment = json.ispaid;
-      const ispaid = "NO";
-      const change = { name, appareltype, size, payment, ispaid };
+      const completed = "NO";
+      const change = { completed };
       console.log(change);
 
       ///////////////////////////////////// IS Patch paid change
@@ -131,30 +129,55 @@ export default function ShowOrdersAdmin() {
     }
   };
 
-  //Show NOT Paid
-  const handleNotPaid = async (e) => {
-    // e.preventDefault();
-    // const response = await fetch(fetchPath, {
-    //   headers: { Authorization: `Bearer ${user.token}` },
-    // });
-    // const json = await response.json();
-    // if (response.ok) {
-    //   const noResults = json.filter((results) => results.ispaid.includes("NO"));
-    //   setApparelList(noResults);
-    // }
+  //Show NOT Completed
+  const handleNotCompleted = async (e) => {
+    e.preventDefault();
+    const response = await fetch(fetchPath, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    const json = await response.json();
+    if (response.ok) {
+      const noResults = json.filter((results) => results.completed.includes("NO"));
+      setTaskList(noResults);
+    }
+  };
+  //Show My Tasks
+  const handleMyTasks = async (e) => {
+    e.preventDefault();
+    console.log(user.name);
+    const response = await fetch(fetchPath, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    const json = await response.json();
+    if (response.ok) {
+      const myTasks = json.filter((results) => results.assignTo.includes(user.userName) && results.completed.includes("NO"));
+      setTaskList(myTasks);
+    }
   };
 
-  //Show Paid
-  const handleYesPaid = async (e) => {
-    // e.preventDefault();
-    // const response = await fetch(fetchPath, {
-    //   headers: { Authorization: `Bearer ${user.token}` },
-    // });
-    // const json = await response.json();
-    // if (response.ok) {
-    //   const yesResults = json.filter((results) => results.ispaid.includes("YES"));
-    //   setApparelList(yesResults);
-    // }
+  //Show Complete
+  const handleYesComplete = async (e) => {
+    e.preventDefault();
+    const response = await fetch(fetchPath, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    const json = await response.json();
+    if (response.ok) {
+      const yesResults = json.filter((results) => results.completed.includes("YES"));
+      setTaskList(yesResults);
+    }
+  };
+  //Show Urgent open
+  const handleShowUrgent = async (e) => {
+    e.preventDefault();
+    const response = await fetch(fetchPath, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    const json = await response.json();
+    if (response.ok) {
+      const yesResults = json.filter((results) => results.priority.includes("0-U"));
+      setTaskList(yesResults);
+    }
   };
 
   //Show All
@@ -164,10 +187,10 @@ export default function ShowOrdersAdmin() {
 
   //Export to Excel
   const handleExport = () => {
-    // const wb = XLSX.utils.book_new(),
-    //   ws = XLSX.utils.json_to_sheet(apparelList);
-    // XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    // XLSX.writeFile(wb, "Apparel.xlsx");
+    const wb = XLSX.utils.book_new(),
+      ws = XLSX.utils.json_to_sheet(taskList);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "TaskTracker.xlsx");
   };
 
   //fetch all orders on load
@@ -189,16 +212,22 @@ export default function ShowOrdersAdmin() {
 
   return (
     <div className="show_all">
-      <h1>All Tasks</h1>
+      <h1>Task Tracker</h1>
       <div className="adminFilters">
         <button variant="contained" color="primary" onClick={handleExport}>
           Export to Excel
         </button>
-        <button variant="contained" color="primary" onClick={handleNotPaid}>
-          Search NOT Paid 💲
+        <button variant="contained" color="primary" onClick={handleMyTasks}>
+          Search My Open Tasks
         </button>
-        <button variant="contained" color="primary" onClick={handleYesPaid}>
-          Search Paid 💲
+        <button variant="contained" color="primary" onClick={handleShowUrgent}>
+          Search All Ugent and Open
+        </button>
+        <button variant="contained" color="primary" onClick={handleNotCompleted}>
+          Search All NOT Completed ❌
+        </button>
+        <button variant="contained" color="primary" onClick={handleYesComplete}>
+          Search All Completed ☑️
         </button>
         <button variant="contained" color="primary" onClick={showAll}>
           Clear Searches
@@ -242,6 +271,12 @@ export default function ShowOrdersAdmin() {
               <TableCell align="center">
                 <h4>Notes</h4>
               </TableCell>
+              <TableCell align="center">
+                <h4>Mark Complete/Not Complete</h4>
+              </TableCell>
+              <TableCell align="center">
+                <h4>Delete Task</h4>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -258,26 +293,40 @@ export default function ShowOrdersAdmin() {
                 <TableCell className="notes" align="center">
                   {task.notes}
                 </TableCell>
-                {/* <TableCell align="center">
+                <TableCell align="center">
                   <IconButton
-                    aria-label="paid"
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        cursor: "pointer",
+                      },
+                    }}
+                    className="iconcomp"
+                    aria-label="complete"
                     onClick={() => {
-                      handlePaid(apparel._id);
+                      handleComplete(task._id);
                     }}
                   >
-                    <PaidRoundedIcon color="primary" />
+                    <RuleFolderIcon />
                   </IconButton>
-                </TableCell> */}
-                {/* <TableCell align="center">
+                </TableCell>
+                <TableCell align="center">
                   <IconButton
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        cursor: "pointer",
+                      },
+                    }}
+                    className="icons"
                     aria-label="delete"
                     onClick={() => {
-                      deleteApparel(apparel._id);
+                      deleteTask(task._id);
                     }}
                   >
-                    <DeleteIcon color="primary" />
+                    <DeleteForeverIcon />
                   </IconButton>
-                </TableCell> */}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

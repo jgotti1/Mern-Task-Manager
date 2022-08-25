@@ -17,12 +17,13 @@ h3 {
 .showall,
 h1 {
   letter-spacing: 8px;
-  font-size: 28px;
-  margin: 0 10px 10px  10px;
+  font-size: 24px;
+  margin: 0 10px 10px 10px;
+  text-shadow: 3px 3px 3px gray;
 }
 
 .show_tasks {
-  max-height: 590px;
+  max-height: 690px;
 }
 .adminFilters {
   display: flex;
@@ -31,9 +32,12 @@ h1 {
 }
 button {
   width: 145px;
-  height: 30px;
+  height: 39px;
   border: none;
   border-radius: 8px;
+  background-color: rgba(214, 220, 211, 0.928);
+  font-size: 12px;
+  box-shadow: 5px 5px rgba(47, 46, 46, 0.07);
 }
 .adimnFilters,
 button:hover {
@@ -44,6 +48,7 @@ button:hover {
   background-color: rgb(186, 180, 180);
   color: white;
   cursor: pointer;
+  box-shadow: 5px 5px rgba(47, 46, 46, 0.07);
 }
 h5 {
   color: red;
@@ -51,12 +56,12 @@ h5 {
 .notes {
 }
 table {
-  /* border-collapse: collapse; */
+  border-collapse: collapse;
   table-layout: fixed;
   width: 710px;
 }
 table td {
   border: solid 1px #666;
   width: 210px;
-  word-wrap: break-word;
+  word-wrap: normal;
 }

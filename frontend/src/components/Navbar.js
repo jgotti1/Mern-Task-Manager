@@ -15,7 +15,8 @@ function Navbar() {
   return (
     <header>
       <div className="container">
-        <h3 className="app_name">Task Tracker</h3>
+        {!user && <h3 className="app_name">Task Tracker</h3>}
+        {user && <span className="app_name"><span className="welcome">Welcome: </span>{user.userName}</span>}
         <nav>
           {user && (
             <div>

@@ -1,13 +1,13 @@
 import React from "react";
-import { useState } from "react";
-import { fetchPath } from "../hooks/fetchPaths";
+import { useState, useEffect } from "react";
+import { fetchPath, loginFetchPath } from "../hooks/fetchPaths";
 import { useAuthContext } from "../hooks/useAuthContext";
 import "./createTask.css";
 
 export default function CreateTaskForm() {
   const { user } = useAuthContext();
   const [assignTo, setAssignTo] = useState("");
-  const [assignedBy, setAssignedBy] = useState(user.email);
+  const [assignedBy, setAssignedBy] = useState(user.userName);
   const [caseName, setCaseName] = useState("");
   const [task, setTask] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -15,6 +15,24 @@ export default function CreateTaskForm() {
   const [notes, setNotes] = useState("");
   const [emptyFields, setEmptyFields] = useState([]);
   const [error, setError] = useState(null);
+  const [userList, setUserList] = useState([]);
+
+  //fetch all Users on load
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch(loginFetchPath, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const json = await response.json();
+      if (response.ok) {
+        setUserList(json);
+      }
+    };
+
+    if (user) {
+      fetchUsers();
+    }
+  }, [user]);
 
   // handle submit new task
   const handleSubmit = async (e) => {
@@ -43,7 +61,7 @@ export default function CreateTaskForm() {
     }
     if (response.ok) {
       setAssignTo("");
-      setAssignedBy(user.email);
+      setAssignedBy(user.userName);
       setCaseName("");
       setTask("");
       setDueDate("");
@@ -63,9 +81,23 @@ export default function CreateTaskForm() {
 
         <h5 className="required">* required field</h5>
 
-        <label>* Assigned to: </label>
-        <input type="text" onChange={(e) => setAssignTo(e.target.value)} value={assignTo} className={emptyFields.includes("assignTo") ? "error" : ""} />
-
+        <label>* Assign To: </label>
+        <select
+          labelid="demo-simple-select-label"
+          id="demo-simple-select"
+          onChange={(e) => setAssignTo(e.target.value)}
+          value={assignTo}
+          className={emptyFields.includes("assignTo") ? "error" : ""}
+        >
+          <option value=""></option>
+          {userList.map((user, key) => (
+            <option key={key} value={user.name}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+<br />
+<br />
         <label>CaseName: </label>
         <input type="text" step="1" onChange={(e) => setCaseName(e.target.value)} value={caseName} className={emptyFields.includes("caseName") ? "error" : ""} />
 
@@ -84,12 +116,13 @@ export default function CreateTaskForm() {
           className={emptyFields.includes("priority") ? "error" : ""}
         >
           <option value={""}></option>
-          <option value={"0-Urgent Priority"}>1-Urgent Priority</option>
+          <option value={"0-Urgent Priority"}>0-Urgent Priority</option>
           <option value={"1-Semi Urgent Priority"}> 1-Semi Urgent Priority</option>
           <option value={"2- Medium Priority"}>2-Medium Priority </option>
           <option value={"3-Low Priority"}>3-Low Priority</option>
         </select>
-
+<br />
+<br />
         <label> Notes: </label>
         <textarea type="text" rows="7" cols="35" onChange={(e) => setNotes(e.target.value)} value={notes} className={emptyFields.includes("notes") ? "error" : ""} />
 

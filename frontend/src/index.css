@@ -138,13 +138,14 @@ input {
 }
 form button {
   background: var(--primary);
-  border: 0;
+
   color: #fff;
-  padding: 10px;
+
   font-family: "Poppins";
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  box-shadow: 3px 3px rgba(47, 46, 46, 0.09);
+  box-shadow: 4px 4px rgba(47, 46, 46, 0.09);
+  height: 40px;
 }
 div.error {
   padding: 10px;
@@ -155,11 +156,16 @@ div.error {
   margin: 20px 0;
 }
 .icons {
-  margin-left: 10px;
   background: none;
 }
 .icons:hover {
   color: red;
+  background: none;
+}
+
+.iconcomp:hover {
+  color: rgb(38, 143, 68);
+  background-color: none;
 }
 .error {
   border: 1px solid var(--error);
@@ -233,4 +239,9 @@ form.create {
 }
 .table {
   min-width: 650px;
+}
+.welcome {
+  font-weight: bold;
+  font-style: italic;
+  color: var(--primary);
 }

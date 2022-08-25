@@ -15,7 +15,7 @@ export const loginUser = async (req, res) => {
     //create token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token });
+    res.status(200).json({ email, token, userName: user.name });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -27,13 +27,17 @@ export const signupUser = async (req, res) => {
 
   try {
     const user = await User.signup(email, password, name);
-    console.log(user);
 
     //create token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, name, token });
+    res.status(200).json({ email, token, userName: user.name });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+// GET ALL USERS
+export const getUsers = async (req, res) => {
+  const users = await User.find().sort({ createdAt: -1 });
+  res.status(200).json(users);
 };
