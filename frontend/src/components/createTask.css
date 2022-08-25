@@ -6,6 +6,15 @@
   margin-left: 10px;
   gap: 20px;
 }
+.create-div-edit {
+  border-radius: 20px;
+  margin-bottom: 10px;
+  align-content: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 20px;
+}
 
 .notes {
   margin-top: 68px;
@@ -30,4 +39,16 @@ input {
 }
 option {
   justify-content: left;
+}
+.create-div-edit
+input {
+  width: 650px;
+}
+.create-div-edit
+select {
+  width: 650px;
+}
+.create-div-edit
+textarea {
+  width: 650px;
 }

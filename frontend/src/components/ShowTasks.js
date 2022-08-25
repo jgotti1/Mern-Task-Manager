@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,6 +10,7 @@ import { IconButton } from "@mui/material";
 import "./ShowTasks.css";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RuleFolderIcon from "@mui/icons-material/RuleFolder";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { fetchPath } from "../hooks/fetchPaths";
 import { useAuthContext } from "../hooks/useAuthContext";
 import * as XLSX from "xlsx/xlsx.mjs";
@@ -18,6 +20,7 @@ export default function ShowOrdersAdmin() {
   const [taskList, setTaskList] = useState([]);
   const [search, setSearch] = useState("");
   const { user } = useAuthContext();
+  const navigate = useNavigate();
 
   //Delete single TASK item handling
   const deleteTask = async (id) => {
@@ -179,6 +182,18 @@ export default function ShowOrdersAdmin() {
       setTaskList(yesResults);
     }
   };
+  //Edit Task
+  const handleEdit = async (id) => {
+    const response = await fetch(`${fetchPath}${id}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    const json = await response.json();
+    if (response.ok) {
+      const editResults = json;
+      navigate("/edit", { state: editResults });
+      console.log(editResults);
+    }
+  };
 
   //Show All
   const showAll = async (e) => {
@@ -193,7 +208,7 @@ export default function ShowOrdersAdmin() {
     XLSX.writeFile(wb, "TaskTracker.xlsx");
   };
 
-  //fetch all orders on load
+  //fetch all Tasks on load
   useEffect(() => {
     const fetchOrders = async () => {
       const response = await fetch(fetchPath, {
@@ -272,6 +287,9 @@ export default function ShowOrdersAdmin() {
                 <h4>Notes</h4>
               </TableCell>
               <TableCell align="center">
+                <h4>Edit Task</h4>
+              </TableCell>
+              <TableCell align="center">
                 <h4>Mark Complete/Not Complete</h4>
               </TableCell>
               <TableCell align="center">
@@ -298,10 +316,28 @@ export default function ShowOrdersAdmin() {
                     sx={{
                       "&:hover": {
                         backgroundColor: "transparent",
+                        color: "blue",
                         cursor: "pointer",
                       },
                     }}
-                    className="iconcomp"
+                    className="iconcomp icons"
+                    aria-label="complete"
+                    onClick={() => {
+                      handleEdit(task._id);
+                    }}
+                  >
+                    <ModeEditIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        cursor: "pointer",
+                      },
+                    }}
+                    className="iconcomp icons"
                     aria-label="complete"
                     onClick={() => {
                       handleComplete(task._id);
