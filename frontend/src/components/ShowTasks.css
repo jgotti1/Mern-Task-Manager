@@ -1,0 +1,62 @@
+.delete_button {
+  color: red;
+}
+.top_row {
+  background: rgb(241, 241, 241);
+}
+h3 {
+  font-style: italic;
+  padding: 0;
+  margin: 0;
+}
+.show_all {
+  background-color: whitesmoke;
+  border-radius: 18px;
+  padding: 10px;
+}
+.showall,
+h1 {
+  letter-spacing: 8px;
+  font-size: 28px;
+  margin: 0 10px 10px  10px;
+}
+
+.show_tasks {
+  max-height: 590px;
+}
+.adminFilters {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+button {
+  width: 145px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+}
+.adimnFilters,
+button:hover {
+  width: 147px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(186, 180, 180);
+  color: white;
+  cursor: pointer;
+}
+h5 {
+  color: red;
+}
+.notes {
+}
+table {
+  /* border-collapse: collapse; */
+  table-layout: fixed;
+  width: 710px;
+}
+table td {
+  border: solid 1px #666;
+  width: 210px;
+  word-wrap: break-word;
+}

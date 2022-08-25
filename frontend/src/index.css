@@ -1,0 +1,236 @@
+/* google font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap");
+
+/* layout */
+:root {
+  --primary: #1aac83;
+  --error: #e7195a;
+}
+
+body {
+  background: #b5b2b2;
+  margin: 0;
+
+  font-family: "Poppins";
+}
+header {
+  background: #cfd1d0;
+}
+header .container {
+  /* max-width: 1400px; */
+  margin: 0 10px 10px auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header a {
+  color: #333;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.pages {
+  padding: 20px;
+  margin: 0 auto;
+}
+
+/* homepage */
+.home {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 100px;
+}
+@media screen and (max-width: 600px) {
+  .home {
+    display: grid;
+    grid-template-columns: 80vw;
+  }
+}
+.home_edit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+.task-details {
+  background: #fff;
+  border-radius: 8px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 5px 5px rgba(47, 46, 46, 0.07);
+  width: 100%;
+}
+.task-edit {
+  background: #fff;
+  border-radius: 4px;
+  margin: 10px auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.09);
+  width: 75%;
+  border: 3px solid green;
+  border-radius: 9px;
+  border-style: dotted;
+}
+.task-details h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: var(--primary);
+}
+
+.task-edit h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: var(--primary);
+}
+.edit_head {
+  font-size: 1.1em;
+  color: var(--primary);
+  text-align: center;
+  padding-bottom: 50px;
+  text-shadow: 1px 1px rgb(56, 55, 55);
+  letter-spacing: 4px;
+  margin: 0;
+}
+
+.task-details p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+  position: relative;
+  top: 10px;
+}
+.task-details span {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background: none;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
+}
+
+.required {
+  color: #e7195a;
+  font-style: italic;
+  font-size: 12px;
+  margin-top: 0;
+}
+.task_header {
+  margin-bottom: 1px;
+}
+
+/* new task form */
+label,
+input {
+  display: block;
+}
+input {
+  padding: 10px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  width: 75%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+form button {
+  background: var(--primary);
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 3px 3px rgba(47, 46, 46, 0.09);
+}
+div.error {
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+.icons {
+  margin-left: 10px;
+  background: none;
+}
+.icons:hover {
+  color: red;
+}
+.error {
+  border: 1px solid var(--error);
+}
+
+/* navbar */
+nav {
+  display: flex;
+  align-items: center;
+}
+nav a {
+  margin-left: 20px;
+}
+.active {
+  color: rgb(156, 161, 156);
+  font-style: italic;
+}
+nav button {
+  background: #fff;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+
+  padding: 6px 10px;
+  border-radius: 14px;
+  font-family: "Poppins";
+  cursor: pointer;
+  font-size: 1em;
+  margin-left: 20px;
+  height: 40px;
+}
+/* auth forms */
+form.signup,
+form.login {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+}
+form.create {
+  max-height: 700px;
+}
+.searchtasks {
+  border-radius: 6px;
+
+  box-shadow: 5px 5px rgba(47, 46, 46, 0.07);
+}
+.search {
+  color: rgb(47, 45, 45);
+  font-style: italic;
+  max-width: 300px;
+}
+.header_text {
+  color: var(--primary);
+  letter-spacing: 14px;
+  text-shadow: 2px 3px rgba(47, 46, 46, 0.3);
+  text-align: justify;
+}
+.buttons_search {
+  display: flex;
+  gap: 25px;
+}
+
+.appBar {
+  border-radius: 25px;
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.table {
+  min-width: 650px;
+}
