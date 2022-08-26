@@ -287,13 +287,13 @@ export default function ShowOrdersAdmin() {
                 <h4>Notes</h4>
               </TableCell>
               <TableCell align="center">
-                <h4>Edit Task</h4>
-              </TableCell>
-              <TableCell align="center">
                 <h4>Mark Complete/Not Complete</h4>
               </TableCell>
               <TableCell align="center">
                 <h4>Delete Task</h4>
+              </TableCell>
+              <TableCell align="center">
+                <h4>Edit Task</h4>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -310,24 +310,6 @@ export default function ShowOrdersAdmin() {
                 <TableCell align="center">{formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}</TableCell>
                 <TableCell className="notes" align="center">
                   {task.notes}
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: "transparent",
-                        color: "blue",
-                        cursor: "pointer",
-                      },
-                    }}
-                    className="iconcomp icons"
-                    aria-label="complete"
-                    onClick={() => {
-                      handleEdit(task._id);
-                    }}
-                  >
-                    <ModeEditIcon />
-                  </IconButton>
                 </TableCell>
                 <TableCell align="center">
                   <IconButton
@@ -363,6 +345,24 @@ export default function ShowOrdersAdmin() {
                     <DeleteForeverIcon />
                   </IconButton>
                 </TableCell>
+                      <TableCell align="center">
+                        <IconButton
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: "transparent",
+                              color: "blue",
+                              cursor: "pointer",
+                            },
+                          }}
+                          className="iconcomp icons"
+                          aria-label="complete"
+                          onClick={() => {
+                            handleEdit(task._id);
+                          }}
+                        >
+                          <ModeEditIcon />
+                        </IconButton>
+                      </TableCell>
               </TableRow>
             ))}
           </TableBody>

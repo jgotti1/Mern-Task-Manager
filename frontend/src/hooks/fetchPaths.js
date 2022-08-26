@@ -1,11 +1,11 @@
 // ++++++++++++++++ DEV PATHS ++++++++++++++++
 
-export const signupFetchPath = "http://localhost:5000/api/user/signup/";
-export const fetchPath = "http://localhost:5000/tasks/";
-export const loginFetchPath = "http://localhost:5000/api/user/login/";
+// export const signupFetchPath = "http://localhost:5000/api/user/signup/";
+// export const fetchPath = "http://localhost:5000/tasks/";
+// export const loginFetchPath = "http://localhost:5000/api/user/login/";
 
 //+++++++++++++++++++PROD PATHS ++++++++++++++++++++
 
-// export const workoutFetchPath = "https://crossfitwodtrack.herokuapp.com/api/workouts/";
-// export const signupFetchPath = "https://crossfitwodtrack.herokuapp.com/api/user/signup/";
-// export const loginFetchPath = "https://crossfitwodtrack.herokuapp.com/api/user/login/";
+export const signupFetchPath = "https://app-tasks-managing.herokuapp.com/api/user/signup/";
+export const fetchPath = "https://app-tasks-managing.herokuapp.com/tasks/";
+export const loginFetchPath = "https://app-tasks-managing.herokuapp.com/api/user/login/";
